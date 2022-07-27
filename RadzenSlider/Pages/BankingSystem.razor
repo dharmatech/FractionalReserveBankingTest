@@ -1,0 +1,125 @@
+﻿@page "/banking-system"
+
+<h1>BankingSystem</h1>
+
+@code {
+    private decimal max_cash = 100;
+    private decimal cash = 100;
+
+    private decimal money_supply = 100;
+}
+
+Cash: @cash
+
+<br/>
+
+@code {
+    private decimal deposits = 0;
+
+    //private decimal max_value = 100;
+
+    private decimal reserves = 0;
+
+    private decimal loans = 0;
+
+    void OnChange(decimal value, string name)
+    {
+        //deposits = value;
+
+        //cash = cash - value;
+
+        //cash = cash - value;
+
+
+        //cash = cash - value;
+
+        //deposits = value;
+
+        //(cash, deposits) = (cash - value, value);
+
+        cash = max_cash - value;
+                
+        deposits = value;
+                
+        reserves = value;
+                
+        //max_loan = reserves * 0.9m;
+    }
+}
+
+
+@*<RadzenSlider @bind-Value=@deposits TValue="decimal" Min="0" Max="@(cash + deposits)" Change=@(args => OnChange(args, "")) />*@
+
+@*<RadzenSlider TValue="decimal" Min="0" Max="@(cash + deposits)" Change=@(args => OnChange(args, "")) />*@
+
+Deposit: <br />
+<RadzenSlider Style="width: 600px;" TValue="decimal" Min="0" Max="@(max_cash)" Change=@(args => OnChange(args, "")) />
+
+@code {
+    void CommitDeposit()
+    {
+        max_loan = reserves * 0.9m;
+    }
+}
+
+<button class="btn btn-primary" @onclick="CommitDeposit">
+    Commit Deposit
+</button>
+
+
+<br />
+
+<h1>Assets</h1>
+
+Reserves: @reserves <br />
+
+Loans: @loans <br />
+
+<h1>Liabilities</h1>
+
+Deposits: @deposits <br />
+
+@code {
+    private decimal max_loan = 1;
+
+    private decimal loan = 0;
+
+    void OnChangeLoan(decimal value)
+    {
+        loan = value;
+    }
+}
+
+<RadzenSlider Style="width: 600px;" TValue="decimal" Min="0" Max="@(max_loan)" Change=@(args => OnChangeLoan(args)) />
+
+@code {
+    void CommitLoan()
+    {
+        cash = cash + loan;
+
+        max_cash = max_cash + loan;
+                
+        loans = loans + loan;
+
+        reserves = reserves - loan;
+
+        max_loan = reserves * 0.9m;
+
+        loan = 0;
+
+        money_supply = cash + deposits;
+    }
+}
+
+<button class="btn btn-primary" @onclick="CommitLoan">
+    Commit Loan
+</button>
+
+<br />
+Max loan: @max_loan
+<br />
+Loan: @loan
+
+<h1>Economy</h1>
+
+Money supply: @money_supply

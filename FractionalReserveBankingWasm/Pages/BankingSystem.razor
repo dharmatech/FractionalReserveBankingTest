@@ -1,0 +1,161 @@
+﻿@page "/banking-system"
+
+@code {
+    public Economy economy_base = new Economy() { Cash = 100 };
+
+    public Economy economy = new Economy() { Cash = 100 };
+
+    public decimal deposit = 0;
+
+    void OnChangeDeposit(decimal value)
+    {
+        economy.Cash                = economy_base.Cash;
+        economy.Bank.Reserves       = economy_base.Bank.Reserves;
+        economy.Bank.Loans          = economy_base.Bank.Loans;
+        economy.Bank.Deposits       = economy_base.Bank.Deposits;
+        economy.Bank.ExcessReserves = economy_base.Bank.ExcessReserves;
+
+        economy.Deposit(value);
+    }
+
+    void CommitDeposit()
+    {
+        //economy.Deposit(deposit);
+
+        economy_base.Cash                = economy.Cash;                                         
+        economy_base.Bank.Reserves       = economy.Bank.Reserves;
+        economy_base.Bank.Loans          = economy.Bank.Loans;
+        economy_base.Bank.Deposits       = economy.Bank.Deposits;
+        economy_base.Bank.ExcessReserves = economy.Bank.ExcessReserves;
+
+        deposit = 0;
+    }
+
+    private decimal loan = 0;
+
+    void OnChangeLoan(decimal value)
+    {
+        economy.Cash = economy_base.Cash;
+
+        economy.Bank.Reserves = economy_base.Bank.Reserves;
+        economy.Bank.Loans = economy_base.Bank.Loans;
+        economy.Bank.Deposits = economy_base.Bank.Deposits;
+        economy.Bank.ExcessReserves = economy_base.Bank.ExcessReserves;
+
+        economy.Loan(value);
+    }
+
+    void CommitLoan()
+    {
+        //economy.Loan(loan);
+
+        economy_base.Cash                = economy.Cash;                                         
+        economy_base.Bank.Reserves       = economy.Bank.Reserves;
+        economy_base.Bank.Loans          = economy.Bank.Loans;
+        economy_base.Bank.Deposits       = economy.Bank.Deposits;
+        economy_base.Bank.ExcessReserves = economy.Bank.ExcessReserves;
+                
+        loan = 0;
+    }
+}
+
+
+
+@*@if (economy.Cash == economy_base.Cash)
+{
+    <span>
+        Cash: @(economy.Cash) 
+    </span>
+}
+else
+{
+    <span>
+        Cash: @(economy_base.Cash)
+        <span style="color: purple;">
+            (@(economy.Cash))
+        </span>
+    </span>    
+}*@
+
+
+@{
+    void Template(string label, decimal a, decimal b)
+    {
+    @if (a == b)
+        {
+    <span>
+                        @label: @(a) 
+    </span>
+        }
+        else
+        {
+    <span>
+                        @label: @(b)
+                        <span style="color: purple;">
+                            (@(a))
+                        </span>
+    </span>    
+        }
+    }
+}
+
+@{
+    Template("Cash", economy.Cash, economy_base.Cash);
+}
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ASSETS</th>
+            <th></th>
+            <th>LIABILITIES</th>
+        </tr>
+        <tr>
+            <th>Reserves</th>
+            <th>Loans</th>
+            <th>Deposits</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@{ Template("Reserves", economy.Bank.Reserves, economy_base.Bank.Reserves); }</td>
+            <td>@{ Template("Loans", economy.Bank.Loans, economy_base.Bank.Loans); }</td>
+            <td>@{ Template("Deposits", economy.Bank.Deposits, economy_base.Bank.Deposits); } </td>
+        </tr>
+    </tbody>
+</table>
+
+Reserve ratio: 10% <br />
+
+@{ Template("Excess reserves", economy.Bank.ExcessReserves, economy_base.Bank.ExcessReserves); } <br />
+
+@{ Template("Money supply", economy.MoneySupply(), economy_base.MoneySupply()); } <br />
+
+<h1>Deposit</h1>
+
+Deposit: @deposit <br />
+
+@*
+<RadzenSlider Style="width: 600px;" @bind-Value=@deposit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Cash, 0.1m))" Change=@(arg => OnChangeDeposit(arg)) />
+*@
+
+
+<RadzenSlider Style="width: 100%; max-width: 600px;" @bind-Value=@deposit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Cash, 0.1m))" Change=@(arg => OnChangeDeposit(arg)) />
+
+<button class="btn btn-primary" @onclick="CommitDeposit">
+    Commit Deposit
+</button>
+
+<h1>Loan</h1>
+
+Loan: @loan <br />
+
+<RadzenSlider Style="width: 100%; max-width: 600px;" @bind-Value=@loan TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves, 0.1m))" Change=@(arg => OnChangeLoan(arg)) />
+
+<button class="btn btn-primary" @onclick="CommitLoan">
+    Commit Loan
+</button>
+
+

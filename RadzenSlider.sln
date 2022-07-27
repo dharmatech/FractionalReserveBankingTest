@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RadzenSlider", "RadzenSlider\RadzenSlider.csproj", "{56C558B7-AA42-4ACB-B86A-1681E3F7E512}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankConsole", "BankConsole\BankConsole.csproj", "{F91AD867-23AD-4D76-8087-C7EE0D5CFFB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FractionalReserveBankingWasm", "FractionalReserveBankingWasm\FractionalReserveBankingWasm.csproj", "{4C9E1B09-03A7-43C5-8FE0-0212D63F85D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankWithCapital", "BankWithCapital\BankWithCapital.csproj", "{55E89A7E-8C64-4977-AE46-9D78D23DFFDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank", "Bank\Bank.csproj", "{58A66AA0-527B-463F-AD08-BFA482F25987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankCapitalWasm", "BankCapitalWasm\BankCapitalWasm.csproj", "{FEE1D10F-9FF3-4E7B-B178-43CCA712C38D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56C558B7-AA42-4ACB-B86A-1681E3F7E512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C558B7-AA42-4ACB-B86A-1681E3F7E512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C558B7-AA42-4ACB-B86A-1681E3F7E512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C558B7-AA42-4ACB-B86A-1681E3F7E512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F91AD867-23AD-4D76-8087-C7EE0D5CFFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91AD867-23AD-4D76-8087-C7EE0D5CFFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F91AD867-23AD-4D76-8087-C7EE0D5CFFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91AD867-23AD-4D76-8087-C7EE0D5CFFB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C9E1B09-03A7-43C5-8FE0-0212D63F85D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C9E1B09-03A7-43C5-8FE0-0212D63F85D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C9E1B09-03A7-43C5-8FE0-0212D63F85D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C9E1B09-03A7-43C5-8FE0-0212D63F85D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E89A7E-8C64-4977-AE46-9D78D23DFFDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E89A7E-8C64-4977-AE46-9D78D23DFFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E89A7E-8C64-4977-AE46-9D78D23DFFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E89A7E-8C64-4977-AE46-9D78D23DFFDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A66AA0-527B-463F-AD08-BFA482F25987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A66AA0-527B-463F-AD08-BFA482F25987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A66AA0-527B-463F-AD08-BFA482F25987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A66AA0-527B-463F-AD08-BFA482F25987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE1D10F-9FF3-4E7B-B178-43CCA712C38D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE1D10F-9FF3-4E7B-B178-43CCA712C38D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE1D10F-9FF3-4E7B-B178-43CCA712C38D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE1D10F-9FF3-4E7B-B178-43CCA712C38D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6129FB3-45BB-4500-95DC-25A0BE41A302}
+	EndGlobalSection
+EndGlobal
