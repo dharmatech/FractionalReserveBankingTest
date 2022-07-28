@@ -1,8 +1,12 @@
 # Fractional Reserve banking simulator
 
+This is a very basic model that can be used to demonstrate fractional reserve banking as described in an undergraduate macroeconomics textbook.
+
+# Screenshot
+
 <img src="https://user-images.githubusercontent.com/20816/181410663-20633286-2224-449b-9b8a-a7b13eb24c63.png" width="600">
 
-This is a very basic model that can be used to demonstrate fractional reserve banking as described in an undergraduate macroeconomics textbook.
+# Notes
 
 [Link to live demo](https://radzenslider20220725003447.azurewebsites.net/banking-system).
 
