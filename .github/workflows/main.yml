@@ -15,6 +15,8 @@ jobs:
         dotnet-version: 6.0.301
     - name: Publish .NET Core Project
       run: dotnet publish BankCapitalWasm/BankCapitalWasm.csproj -c Release -o release --nologo
+    - name: Change base-tag in index.html from / to FractionalReserveBankingTest
+      run: sed -i 's/<base href="\/" \/>/<base href="\/FractionalReserveBankingTest\/" \/>/g' release/wwwroot/index.html
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
