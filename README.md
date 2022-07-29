@@ -15,4 +15,4 @@ This is a very basic model that can be used to demonstrate fractional reserve ba
 - Can take a while to load (uses Blazor web assembly)
 - While it does load and work on mobile, the usability is best on a desktop.
 - Not complete. But basic scenarios can be tested.
-- The code for this demo is [here]([https://github.com/dharmatech/FractionalReserveBankingTest/tree/master/BankCapitalWasm](https://github.com/dharmatech/FractionalReserveBankingTest/blob/master/BankCapitalWasm/Pages/BankingSystem.razor)).
+- The code for this demo is [here](https://github.com/dharmatech/FractionalReserveBankingTest/blob/master/BankCapitalWasm/Pages/BankingSystem.razor).
