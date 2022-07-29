@@ -196,16 +196,16 @@ else
     @if (a == b)
             {
     <span>
-                                        @label @(String.Format("{0:N2}", a))
+                                                @label @(String.Format("{0:N2}", a))
     </span>
             }
             else
             {
     <span>
-                                        @label @(String.Format("{0:N2}", b))
-                                        <span style="color: purple;">
-                                            (@(String.Format("{0:N2}", a)))
-                                        </span>
+                                                @label @(String.Format("{0:N2}", b))
+                                                <span style="color: purple;">
+                                                    (@(String.Format("{0:N2}", a)))
+                                                </span>
     </span>    
             }
     }
@@ -217,7 +217,7 @@ else
 
 <br />
 
-<table class="table">
+<table class="table" style="max-width:800px;">
     <thead>
 
         <tr>
@@ -288,7 +288,7 @@ Reserve ratio: 10% <br />
 
     Max:<input style="max-width: 75px;" @bind="max_cash_to_add" />
 
-    <button class="btn btn-primary" style="width: 150px;" @onclick="OnCommitAddCash">
+    <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="OnCommitAddCash">
         Add cash: @cash_to_add
     </button>
 
@@ -299,7 +299,7 @@ Reserve ratio: 10% <br />
 
 Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 
-<button class="btn btn-primary" style="width: 150px;" @onclick="AddCapital">
+<button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="AddCapital">
     Add Capital: @capital_to_add
 </button>
 
@@ -310,7 +310,7 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 
     Max:<input style="max-width: 75px;" @bind="max_debt_to_add" />
 
-    <button class="btn btn-primary" style="width: 150px;" @onclick="OnCommitAddDebt">
+    <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="OnCommitAddDebt">
         Add debt @debt_to_add
     </button>
 
@@ -318,40 +318,64 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 </div>
 
 
-<RadzenSlider Style="width: 60%; " @bind-Value=@deposit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Cash, 0.1m))" Change=@(arg => OnChangeDeposit(arg)) />
+<RadzenSlider Style="width: 50%; " @bind-Value=@deposit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Cash, 0.1m))" Change=@(arg => OnChangeDeposit(arg)) />
 
-<button class="btn btn-primary" style="width: 150px;" @onclick="CommitDeposit">
+<button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitDeposit">
     Deposit @deposit
 </button>
 
-<RadzenSlider Style="width: 60%;" @bind-Value=@loan TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeLoan(arg)) />
+<RadzenSlider Style="width: 50%;" @bind-Value=@loan TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeLoan(arg)) />
 
-<button class="btn btn-primary" style="width: 150px;" @onclick="CommitLoan">
+<button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitLoan">
     Loan @loan
 </button>
 
 
 
-<RadzenSlider Style="width: 60%;" @bind-Value=@loan_default TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.Loans, 0.1m))" Change=@(arg => OnChangeLoanDefault(arg)) />
+<RadzenSlider Style="width: 50%;" @bind-Value=@loan_default TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.Loans, 0.1m))" Change=@(arg => OnChangeLoanDefault(arg)) />
 
-<button class="btn btn-danger" style="width: 150px;" @onclick="OnCommitLoanDefault">
+<button class="btn btn-danger btn-sm" style="width: 150px;" @onclick="OnCommitLoanDefault">
     Loan default @loan_default
 </button>
 
 
 
+<div>
+    <RadzenSlider Style="width: 50%;" @bind-Value=@securities TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeBuySecurities(arg)) />
+
+    <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="OnCommitBuySecurity">
+        Buy security @securities
+    </button>
+</div>
 
 
-<RadzenSlider Style="width: 60%;" @bind-Value=@securities TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeBuySecurities(arg)) />
 
-<button class="btn btn-primary" style="width: 150px;" @onclick="OnCommitBuySecurity">
-    Buy security @securities
-</button>
+@*
+@code {
+    private string number_to_class(decimal value)
+    {
+        if (value >= 0) return "btn btn-success";
+        if (value < 0) return "btn btn-danger";
+        return "btn btn-primary";
+    }
+}
+*@
 
-<RadzenSlider Style="width: 60%;" @bind-Value=@securities_profit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.Securities, 0.1m))" Change=@(arg => OnChangeSecuritiesProfit(arg)) />
+<div>
+    <RadzenSlider Style="width: 50%;" @bind-Value=@securities_profit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.Securities, 0.1m))" Change=@(arg => OnChangeSecuritiesProfit(arg)) />
+    
+    @*
+    <RadzenSlider Style="width: 60%;" @bind-Value=@securities_profit TValue="decimal" Min="@(-Math.Max(economy_base.Bank.Securities, 0.1m))" Max="@(Math.Max(economy_base.Bank.Securities, 0.1m))" Change=@(arg => OnChangeSecuritiesProfit(arg)) />
+    *@
+    
+    <button class="btn btn-success btn-sm" style="width: 150px;" @onclick="OnCommitSecuritiesProfit">
+        Securities profit @securities_profit
+    </button>
+    
 
-<button class="btn btn-success" style="width: 150px;" @onclick="OnCommitSecuritiesProfit">
-    Securities profit @securities_profit
-</button>
-
-
+    @*
+    <button class="@number_to_class(securities_profit)" style="width: 150px;" @onclick="OnCommitSecuritiesProfit">
+        Securities profit @securities_profit
+    </button>
+    *@
+</div>
