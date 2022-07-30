@@ -38,182 +38,47 @@
         b.Bank.Capital    = a.Bank.Capital;        
     }
 
-    void OnChangeAddDebt(decimal value)
-    {
-        CopyEconomy(economy_base, economy);
-                
-        economy.Bank.AddDebt(value);
-    }
+    void OnChangeAddDebt(decimal value)          { CopyEconomy(economy_base, economy); economy.Bank.AddDebt(value); }
+    void OnChangeAddCash(decimal value)          { CopyEconomy(economy_base, economy); economy.AddCash(value); }
+    void OnChangeDeposit(decimal value)          { CopyEconomy(economy_base, economy); economy.Deposit(value); }
+    void OnChangeAddCapital(decimal value)       { CopyEconomy(economy_base, economy); economy.Bank.AddCapital(value); }
+    void OnChangeLoan(decimal value)             { CopyEconomy(economy_base, economy); economy.Loan(value); }
+    void OnChangeLoanDefault(decimal value)      { CopyEconomy(economy_base, economy); economy.Bank.LoanDefault(value); }
+    void OnChangeBuySecurities(decimal value)    { CopyEconomy(economy_base, economy); economy.Bank.BuySecurity(value); }
+    void OnChangeSecuritiesProfit(decimal value) { CopyEconomy(economy_base, economy); economy.Bank.SecuritiesProfit(value); }
 
-    void OnCommitAddDebt()
-    {
-        CopyEconomy(economy, economy_base);
-
-        debt_to_add = 0;
-    }
-
-    void OnChangeAddCash(decimal value)
-    {
-        CopyEconomy(economy_base, economy);
-                
-        economy.AddCash(value);
-    }
-
-    void OnCommitAddCash()
-    {
-        CopyEconomy(economy, economy_base);
-
-        cash_to_add = 0;
-    }
-
-
-    void OnChangeDeposit(decimal value)
-    {
-        CopyEconomy(economy_base, economy);
-
-        economy.Deposit(value);
-    }
-
-    void CommitDeposit()
-    {
-        //economy.Deposit(deposit);
-
-        economy_base.Cash                = economy.Cash;                                         
-        economy_base.Bank.Reserves       = economy.Bank.Reserves;
-        economy_base.Bank.Loans          = economy.Bank.Loans;
-        economy_base.Bank.Deposits       = economy.Bank.Deposits;
-        //economy_base.Bank.ExcessReserves = economy.Bank.ExcessReserves;
-
-        deposit = 0;
-    }
-
-    void OnChangeAddCapital(decimal value)
-    {
-        CopyEconomy(economy_base, economy);
-
-        economy.Bank.AddCapital(value);
-    }
-
-    void AddCapital()
-    {
-        CopyEconomy(economy, economy_base);
-
-        capital_to_add = 0;
-    }
-
-    void OnChangeLoan(decimal value)
-    {
-        economy.Cash = economy_base.Cash;
-
-        economy.Bank.Reserves = economy_base.Bank.Reserves;
-        economy.Bank.Loans = economy_base.Bank.Loans;
-        economy.Bank.Deposits = economy_base.Bank.Deposits;
-        //economy.Bank.ExcessReserves = economy_base.Bank.ExcessReserves;
-
-        economy.Loan(value);
-    }
-
-    void CommitLoan()
-    {
-        //economy.Loan(loan);
-
-        economy_base.Cash                = economy.Cash;                                         
-        economy_base.Bank.Reserves       = economy.Bank.Reserves;
-        economy_base.Bank.Loans          = economy.Bank.Loans;
-        economy_base.Bank.Deposits       = economy.Bank.Deposits;
-        //economy_base.Bank.ExcessReserves = economy.Bank.ExcessReserves;
-
-        loan = 0;
-    }
-
-    void OnChangeLoanDefault(decimal value)
-    {
-        CopyEconomy(economy_base, economy);
-
-        economy.Bank.LoanDefault(value);
-    }
-
-    void OnCommitLoanDefault()
-    {
-        CopyEconomy(economy, economy_base);
-
-        //economy.Bank.LoanDefault(value);
-
-        loan_default = 0;
-    }
-
-    void OnChangeBuySecurities(decimal value)
-    {
-        CopyEconomy(economy_base, economy);
-                
-        economy.Bank.BuySecurity(value);
-    }
-
-    void OnCommitBuySecurity()
-    {
-        CopyEconomy(economy, economy_base);
-
-        securities = 0;
-    }
-
-    void OnChangeSecuritiesProfit(decimal value)
-    {
-        CopyEconomy(economy_base, economy);
-
-        economy.Bank.SecuritiesProfit(value);
-    }
-
-    void OnCommitSecuritiesProfit()
-    {
-        CopyEconomy(economy, economy_base);
-
-        securities_profit = 0;
-    }
+    void OnCommitAddDebt()          { CopyEconomy(economy, economy_base); debt_to_add = 0; }
+    void OnCommitAddCash()          { CopyEconomy(economy, economy_base); cash_to_add = 0; }
+    void CommitDeposit()            { CopyEconomy(economy, economy_base); deposit = 0; }
+    void AddCapital()               { CopyEconomy(economy, economy_base); capital_to_add = 0; }
+    void CommitLoan()               { CopyEconomy(economy, economy_base); loan = 0; }
+    void OnCommitLoanDefault()      { CopyEconomy(economy, economy_base); loan_default = 0; }
+    void OnCommitBuySecurity()      { CopyEconomy(economy, economy_base); securities = 0; }
+    void OnCommitSecuritiesProfit() { CopyEconomy(economy, economy_base); securities_profit = 0; }    
 }
-
-
-
-@*@if (economy.Cash == economy_base.Cash)
-{
-    <span>
-        Cash: @(economy.Cash) 
-    </span>
-}
-else
-{
-    <span>
-        Cash: @(economy_base.Cash)
-        <span style="color: purple;">
-            (@(economy.Cash))
-        </span>
-    </span>    
-}*@
-
 
 @{
     void Template(string label, decimal? a, decimal? b)
     {
-    @if (a == b)
-            {
-    <span>
-                                                @label @(String.Format("{0:N2}", a))
-    </span>
-            }
-            else
-            {
-    <span>
-                                                @label @(String.Format("{0:N2}", b))
-                                                <span style="color: purple;">
-                                                    (@(String.Format("{0:N2}", a)))
-                                                </span>
-    </span>    
-            }
+        @if (a == b)
+        {
+            <span>
+                @label @(String.Format("{0:N2}", a))
+            </span>
+        }
+        else
+        {
+            <span>
+                @label @(String.Format("{0:N2}", b))
+                <span style="color: purple;">
+                    (@(String.Format("{0:N2}", a)))
+                </span>
+            </span>    
+        }
     }
 }
 
-@{
-    Template("Cash", economy.Cash, economy_base.Cash);
-}
+@{ Template("Cash", economy.Cash, economy_base.Cash); }
 
 <br />
 
@@ -318,6 +183,14 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 </div>
 
 
+
+
+
+
+
+
+
+
 <RadzenSlider Style="width: 50%; " @bind-Value=@deposit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Cash, 0.1m))" Change=@(arg => OnChangeDeposit(arg)) />
 
 <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitDeposit">
@@ -338,8 +211,6 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
     Loan default @loan_default
 </button>
 
-
-
 <div>
     <RadzenSlider Style="width: 50%;" @bind-Value=@securities TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeBuySecurities(arg)) />
 
@@ -348,34 +219,10 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
     </button>
 </div>
 
-
-
-@*
-@code {
-    private string number_to_class(decimal value)
-    {
-        if (value >= 0) return "btn btn-success";
-        if (value < 0) return "btn btn-danger";
-        return "btn btn-primary";
-    }
-}
-*@
-
 <div>
     <RadzenSlider Style="width: 50%;" @bind-Value=@securities_profit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.Securities, 0.1m))" Change=@(arg => OnChangeSecuritiesProfit(arg)) />
-    
-    @*
-    <RadzenSlider Style="width: 60%;" @bind-Value=@securities_profit TValue="decimal" Min="@(-Math.Max(economy_base.Bank.Securities, 0.1m))" Max="@(Math.Max(economy_base.Bank.Securities, 0.1m))" Change=@(arg => OnChangeSecuritiesProfit(arg)) />
-    *@
-    
+            
     <button class="btn btn-success btn-sm" style="width: 150px;" @onclick="OnCommitSecuritiesProfit">
         Securities profit @securities_profit
     </button>
-    
-
-    @*
-    <button class="@number_to_class(securities_profit)" style="width: 150px;" @onclick="OnCommitSecuritiesProfit">
-        Securities profit @securities_profit
-    </button>
-    *@
 </div>
