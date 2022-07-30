@@ -8,7 +8,7 @@
   "resources": {
     "assembly": {
       "Bank.dll": "sha256-W0FqY16AQyFox1vc5OJVHnq0HiPcJdMKZbIjlVbL+x8=",
-      "BankCapitalWasm.dll": "sha256-U2bpnYnSn4XU3xuOCA\/7O0OiiKks4zAME0lq81CO90g=",
+      "BankCapitalWasm.dll": "sha256-O6dO72ZKK4txBj0lOcCq7If+\/odxaFQLHtKlTUzWyN8=",
       "Microsoft.AspNetCore.Components.dll": "sha256-Yjw56Ok62ZV+KLBaD7hnzLDd\/YtLSPxQUWO7eUaxoGk=",
       "Microsoft.AspNetCore.Components.Forms.dll": "sha256-Wxcnt3kjMAHgE0eSb2DOH\/Epb8KT0AUlM89y+57vf2I=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-UHEnTrzyokn2qwMdx7MudqndGrTmXy7aD35ilo14gIY=",
