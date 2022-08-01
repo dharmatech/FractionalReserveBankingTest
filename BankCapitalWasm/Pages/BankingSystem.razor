@@ -207,146 +207,15 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 
 
 
-
 @*
-@{
-    void SliderButtonTemplate(decimal max, decimal value, Action<decimal> proc, Action commit, string label)
-    {
-        <RadzenSlider Style="width: 50%; " @bind-Value=@value TValue="decimal" Min="0" Max="@(Math.Max(max, 0.1m))" Change=@(arg => proc(arg)) />
-
-        <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick=commit>
-            @label value
-        </button>
-    }
-
-    //RenderFragment AltTemplate((decimal, decimal) obj)
-    //{
-    //    <div>
-    //    </div>
-    //}
-
-    RenderFragment<(double, double)> AltTemplate = (abc) => @<div>  </div>;
-}
-
-
-
-@{ SliderButtonTemplate(economy_base.Cash, deposit, OnChangeDeposit, CommitDeposit, "Deposit"); }
-
+<SliderButton                           Label="Deposit"           @bind-Val="@deposit"           Max="economy_base.Cash"                  ChangeProc="OnChangeDeposit"          CommitProc="CommitDeposit" />
 *@
 
-
-@code{
-    decimal abc = 0;
-    decimal bcd = 0;
-
-    public class TemplateArg
-    {
-        public decimal Val;
-        public decimal Max;
-        public Action<decimal> Proc;
-    }
-}
-
-<RadzenSlider @bind-Value="abc" />
-
-<button>@abc</button>
-
-<br />
+<SliderButton                           Label="Deposit"                                          Max="economy_base.Cash"                  ChangeProc="OnChangeDeposit"          CommitProc="CommitDeposit" />
 
 
 
-@{
-    RenderFragment<(decimal, decimal)> AltTemplate = (xyz) =>
-    @<div>
-        <input @bind-value="xyz.Item1"/>
-
-        <button>@xyz.Item1 @xyz.Item2</button>
-    </div>;
-
-
-
-    //RenderFragment<(decimal, decimal, Action<decimal>)> AltTemplate2 = (xyz) =>
-    //@<div>
-    //    @*<RadzenSlider @bind-Value="xyz.Item1"  />*@
-    //                <RadzenSlider @bind-Value="xyz.Item1"/>
-    //                <RadzenSlider Style="width: 50%;" @bind-Value="xyz.Item1" TValue="decimal" Min="0" Max="@(Math.Max(xyz.Item2, 0.1m))" Change=@(arg => xyz.Item3(arg)) />
-    //                <button>@xyz.Item1</button>
-    //</div>;
-        
-    //RenderFragment<TemplateArg> AltTemplate3 = (xyz) =>
-    //@<div>
-        
-    //    <RadzenSlider @bind-Value="xyz.Val"/>
-    //    @*<RadzenSlider Style="width: 50%;" @bind-Value="xyz.Item1" TValue="decimal" Min="0" Max="@(Math.Max(xyz.Item2, 0.1m))" Change=@(arg => xyz.Item3(arg)) />*@
-    //    <button>@xyz.Val</button>
-    //</div>;
-
-    
-
-    //RenderFragment<(decimal, decimal, EventCallback<decimal>)> AltTemplate3 = (xyz) =>
-    //@<div>
-    //                <RadzenSlider @bind-Value="xyz.Item1"  />
-    //                <RadzenSlider Style="width: 50%;" @bind-Value="xyz.Item1" TValue="decimal" Min="0" Max="@(Math.Max(xyz.Item2, 0.1m))" Change=@(arg => xyz.Item3(arg)) />
-    //                <button>@xyz</button>
-    //</div>;
-}
-
-
-@AltTemplate((abc, bcd))
-
-
-@*
-@AltTemplate((deposit, economy_base.Cash))
-*@
-
-@*
-@AltTemplate2((deposit, economy_base.Cash, OnChangeDeposit))
-*@
-
-@*<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="economy_base.Cash" ChangeProc="OnChangeDeposit" CommitProc="CommitDeposit" />*@
-
-@*<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="100" ChangeProc="OnChangeDeposit" CommitProc="CommitDeposit" />*@
-
-@*<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="100" ChangeProc=@(arg => OnChangeDeposit(arg)) CommitProc="CommitDeposit" />*@
-
-<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="100" ChangeProc="OnChangeDeposit" CommitProc="CommitDeposit" />
-
-@*
-<RadzenSlider Style="width: 50%; " @bind-Value=@deposit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Cash, 0.1m))" Change=@(arg => OnChangeDeposit(arg)) />
-
-
-<button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitDeposit">
-    Deposit @deposit
-</button>
-*@
-
-
-<RadzenSlider Style="width: 50%;" @bind-Value=@loan TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeLoan(arg)) />
-
-<button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitLoan">
-    Loan @loan
-</button>
-
-
-
-<RadzenSlider Style="width: 50%;" @bind-Value=@loan_default TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.Loans, 0.1m))" Change=@(arg => OnChangeLoanDefault(arg)) />
-
-<button class="btn btn-danger btn-sm" style="width: 150px;" @onclick="OnCommitLoanDefault">
-    Loan default @loan_default
-</button>
-
-<div>
-    <RadzenSlider Style="width: 50%;" @bind-Value=@securities TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeBuySecurities(arg)) />
-
-    <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="OnCommitBuySecurity">
-        Buy security @securities
-    </button>
-</div>
-
-<div>
-    <RadzenSlider Style="width: 50%;" @bind-Value=@securities_profit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.Securities, 0.1m))" Change=@(arg => OnChangeSecuritiesProfit(arg)) />
-            
-    <button class="btn btn-success btn-sm" style="width: 150px;" @onclick="OnCommitSecuritiesProfit">
-        Securities profit @securities_profit
-    </button>
-</div>
+<SliderButton                           Label="Loan"              @bind-Val="@loan"              Max="economy_base.Bank.ExcessReserves()" ChangeProc="OnChangeLoan"             CommitProc="CommitLoan" />
+<SliderButton ButtonStyle="btn-danger"  Label="Loan default"      @bind-Val="@loan_default"      Max="economy_base.Bank.Loans"            ChangeProc="OnChangeLoanDefault"      CommitProc="OnCommitLoanDefault" />
+<SliderButton                           Label="Buy security"      @bind-Val="@securities"        Max="economy_base.Bank.ExcessReserves()" ChangeProc="OnChangeBuySecurities"    CommitProc="OnCommitBuySecurity" />
+<SliderButton ButtonStyle="btn-success" Label="Securities profit" @bind-Val="@securities_profit" Max="economy_base.Bank.Securities"       ChangeProc="OnChangeSecuritiesProfit" CommitProc="OnCommitSecuritiesProfit" />
