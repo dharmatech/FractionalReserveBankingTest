@@ -20,13 +20,14 @@
         }
     }
 
-    [Parameter]
-    public Action<decimal> ChangeProc { get; set; }
+    //[Parameter] public Action<decimal> ChangeProc { get; set; }
+
+    [Parameter] public EventCallback<decimal> ChangeProc { get; set; }
 }
 
 @*<RadzenSlider Style="width: 50%;" @bind-Value="@Val" TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" Change=@(arg => ChangeProc(arg)) />*@
 
-<RadzenSlider Style="width: 50%;" @bind-Value="@Val" TValue="decimal" Min="0" Max="100" Change=@(arg => ChangeProc(arg)) /> wierd
+<RadzenSlider Style="width: 50%;" @bind-Value="@Val" TValue="decimal" Min="0" Max="100" Change=@(arg => ChangeProc.InvokeAsync(arg)) /> weird
 
 <br />
 

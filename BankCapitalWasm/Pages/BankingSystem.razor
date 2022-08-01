@@ -13,14 +13,8 @@
     public decimal max_cash_to_add = 100;
     public decimal cash_to_add = 0;
 
-    private decimal loan = 0;
-    private decimal loan_default;
-
     public decimal max_capital_to_add = 100;
     public decimal capital_to_add = 0;
-
-    public decimal securities;
-    public decimal securities_profit;
 
     void CopyEconomy(Economy a, Economy b)
     {
@@ -38,19 +32,12 @@
     void OnChangeAddCash(decimal value)          { CopyEconomy(economy_base, economy); economy.AddCash(value); }
         
     void OnChangeAddCapital(decimal value)       { CopyEconomy(economy_base, economy); economy.Bank.AddCapital(value); }
-    void OnChangeLoan(decimal value)             { CopyEconomy(economy_base, economy); economy.Loan(value); }
-    void OnChangeLoanDefault(decimal value)      { CopyEconomy(economy_base, economy); economy.Bank.LoanDefault(value); }
-    void OnChangeBuySecurities(decimal value)    { CopyEconomy(economy_base, economy); economy.Bank.BuySecurity(value); }
-    void OnChangeSecuritiesProfit(decimal value) { CopyEconomy(economy_base, economy); economy.Bank.SecuritiesProfit(value); }
-
+    
     void OnCommitAddDebt()          { CopyEconomy(economy, economy_base); debt_to_add = 0; }
     void OnCommitAddCash()          { CopyEconomy(economy, economy_base); cash_to_add = 0; }
-    void CommitDeposit()            { CopyEconomy(economy, economy_base); }
+    
     void AddCapital()               { CopyEconomy(economy, economy_base); capital_to_add = 0; }
-    void CommitLoan()               { CopyEconomy(economy, economy_base); loan = 0; }
-    void OnCommitLoanDefault()      { CopyEconomy(economy, economy_base); loan_default = 0; }
-    void OnCommitBuySecurity()      { CopyEconomy(economy, economy_base); securities = 0; }
-    void OnCommitSecuritiesProfit() { CopyEconomy(economy, economy_base); securities_profit = 0; }
+    
 }
 
 @{
@@ -59,16 +46,16 @@
     @if (a == b)
         {
     <span>
-                        @label @(String.Format("{0:N2}", a))
+                            @label @(String.Format("{0:N2}", a))
     </span>
         }
         else
         {
     <span>
-                        @label @(String.Format("{0:N2}", b))
-                        <span style="color: purple;">
-                            (@(String.Format("{0:N2}", a)))
-                        </span>
+                            @label @(String.Format("{0:N2}", b))
+                            <span style="color: purple;">
+                                (@(String.Format("{0:N2}", a)))
+                            </span>
     </span>
         }
     }
@@ -198,27 +185,33 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
     <br />
 </div>
 
-
-@code {
-    private decimal deposit = 0;
-
-    void OnChangeDeposit(decimal value) { CopyEconomy(economy_base, economy); economy.Deposit(value); }
-}
+@code { private decimal deposit = 0; }
 
 <SliderButton Label="Deposit" @bind-Val="@deposit" Max="economy_base.Cash" 
-    ChangeProc="OnChangeDeposit"
-    CommitProc="CommitDeposit" />
-
-
-<SliderButton Label="Deposit" Max="economy_base.Cash" 
     ChangeProc="@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })"
-    CommitProc="CommitDeposit" />
+    CommitProc="@(() => { CopyEconomy(economy, economy_base); deposit = 0; })" />
 
-<SliderButton Label="Deposit" Max="economy_base.Cash" 
-    ChangeProc="@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })"
-    CommitProc="@(() => CopyEconomy(economy, economy_base))" />
+@code { private decimal loan = 0; }
 
-<SliderButton                           Label="Loan"              @bind-Val="@loan"              Max="economy_base.Bank.ExcessReserves()" ChangeProc="OnChangeLoan"             CommitProc="CommitLoan" />
-<SliderButton ButtonStyle="btn-danger"  Label="Loan default"      @bind-Val="@loan_default"      Max="economy_base.Bank.Loans"            ChangeProc="OnChangeLoanDefault"      CommitProc="OnCommitLoanDefault" />
-<SliderButton                           Label="Buy security"      @bind-Val="@securities"        Max="economy_base.Bank.ExcessReserves()" ChangeProc="OnChangeBuySecurities"    CommitProc="OnCommitBuySecurity" />
-<SliderButton ButtonStyle="btn-success" Label="Securities profit" @bind-Val="@securities_profit" Max="economy_base.Bank.Securities"       ChangeProc="OnChangeSecuritiesProfit" CommitProc="OnCommitSecuritiesProfit" />
+<SliderButton Label="Loan" @bind-Val="@loan" Max="economy_base.Bank.ExcessReserves()" 
+    ChangeProc="@(value => { CopyEconomy(economy_base, economy); economy.Loan(value); })" 
+    CommitProc=@(() => { CopyEconomy(economy, economy_base); loan = 0; }) />
+
+@code { private decimal loan_default; }
+
+<SliderButton ButtonStyle="btn-danger" Label="Loan default" @bind-Val="@loan_default" Max="economy_base.Bank.Loans"
+    ChangeProc=@(value => { CopyEconomy(economy_base, economy); economy.Bank.LoanDefault(value); })
+    CommitProc=@(() => { CopyEconomy(economy, economy_base); loan_default = 0; }) />
+
+@code { public decimal securities; }
+
+<SliderButton Label="Buy security" @bind-Val="@securities" Max="economy_base.Bank.ExcessReserves()" 
+    ChangeProc=@(value => { CopyEconomy(economy_base, economy); economy.Bank.BuySecurity(value); })
+    CommitProc=@(() => { CopyEconomy(economy, economy_base); securities = 0; }) />
+
+@code { public decimal securities_profit; }
+
+<SliderButton ButtonStyle="btn-success" Label="Securities profit" @bind-Val="@securities_profit" Max="economy_base.Bank.Securities"       
+    ChangeProc=@(value => { CopyEconomy(economy_base, economy); economy.Bank.SecuritiesProfit(value); })
+    CommitProc=@(() => { CopyEconomy(economy, economy_base); securities_profit = 0; }) />
+

@@ -20,23 +20,15 @@
         }
     }
 
-    [Parameter]
-    public decimal Max { get; set; }
+    [Parameter] public decimal Max { get; set; }
 
-    //[Parameter]
-    //public Action<decimal> ChangeProc { get; set; }
+    [Parameter] public EventCallback<decimal> ChangeProc { get; set; }
 
-    [Parameter]
-    public EventCallback<decimal> ChangeProc { get; set; }
+    [Parameter] public EventCallback CommitProc { get; set; }
 
-    [Parameter]
-    public Action CommitProc { get; set; }
+    [Parameter] public string Label { get; set; }
 
-    [Parameter]
-    public string Label { get; set; }
-
-    [Parameter]
-    public string ButtonStyle { get; set; } = "btn-primary";
+    [Parameter] public string ButtonStyle { get; set; } = "btn-primary";
 }
 
 <RadzenSlider Style="width: 50%; " @bind-Value="@Val" TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" Change="ChangeProc" />
