@@ -1,0 +1,42 @@
+﻿
+@code {
+    private decimal _value;
+
+    [Parameter]
+    public EventCallback<decimal> ValChanged { get; set; }
+
+    [Parameter]
+    public decimal Val 
+    {
+        get => _value;
+
+        set
+        {
+            if (_value == value) return;
+
+            _value = value;
+
+            ValChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter]
+    public decimal Max { get; set; }
+
+    [Parameter]
+    public Action<decimal> ChangeProc { get; set; }
+
+    [Parameter]
+    public Action CommitProc { get; set; }
+
+    [Parameter]
+    public string Label { get; set; }
+}
+
+@*<RadzenSlider Style="width: 50%; " @bind-Value="@Val" TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" Change=@(arg => ChangeProc(arg)) />*@
+
+<RadzenSlider Style="width: 50%; " @bind-Value="@Val" TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" Change="ChangeProc" />
+
+<button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitProc">
+    @Label @Val
+</button>
