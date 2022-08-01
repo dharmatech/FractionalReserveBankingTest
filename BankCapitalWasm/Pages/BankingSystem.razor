@@ -13,10 +13,6 @@
     public decimal max_cash_to_add = 100;
     public decimal cash_to_add = 0;
 
-
-
-    public decimal deposit = 0;
-
     private decimal loan = 0;
     private decimal loan_default;
 
@@ -52,7 +48,7 @@
 
     void OnCommitAddDebt()          { CopyEconomy(economy, economy_base); debt_to_add = 0; }
     void OnCommitAddCash()          { CopyEconomy(economy, economy_base); cash_to_add = 0; }
-    void CommitDeposit()            { CopyEconomy(economy, economy_base); deposit = 0; }
+    void CommitDeposit()            { CopyEconomy(economy, economy_base); }
     void AddCapital()               { CopyEconomy(economy, economy_base); capital_to_add = 0; }
     void CommitLoan()               { CopyEconomy(economy, economy_base); loan = 0; }
     void OnCommitLoanDefault()      { CopyEconomy(economy, economy_base); loan_default = 0; }
@@ -207,9 +203,6 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 
 
 
-@*
-<SliderButton                           Label="Deposit"           @bind-Val="@deposit"           Max="economy_base.Cash"                  ChangeProc="OnChangeDeposit"          CommitProc="CommitDeposit" />
-*@
 
 <SliderButton                           Label="Deposit"                                          Max="economy_base.Cash"                  ChangeProc="OnChangeDeposit"          CommitProc="CommitDeposit" />
 
