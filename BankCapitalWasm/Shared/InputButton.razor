@@ -1,0 +1,92 @@
+﻿
+@*
+
+@code {
+    [Parameter]
+    public decimal Val { get; set; }
+}
+
+<input @bind="Val" />
+<button>@Val</button>
+
+*@
+
+@*@code {
+    private decimal _Val;
+
+    [Parameter]
+    public EventCallback<decimal> ValChanged { get; set; }
+
+    [Parameter]
+    public decimal Val 
+    {
+        get => _Val;
+
+        set
+        {
+            if (_Val == value) return;
+
+            _Val = value;
+
+            ValChanged.InvokeAsync(value);
+        }
+    }
+}
+
+<input type="decimal" @bind-Value="@Val" />*@
+
+
+@*@code {
+    private decimal _value;
+
+    [Parameter]
+    public EventCallback<decimal> BindingValueChanged { get; set; }
+
+    [Parameter]
+    public decimal BindingValue 
+    {
+        get => _value;
+
+        set
+        {
+            if (_value == value) return;
+
+            _value = value;
+
+            BindingValueChanged.InvokeAsync(value);
+        }
+    }
+}*@
+
+@*<InputNumber type="decimal" @bind-Value="@BindingValue" />*@
+
+@*<input @bind="@BindingValue"/>
+<button>@BindingValue</button>*@
+
+
+
+
+@code {
+    private decimal _value;
+
+    [Parameter]
+    public EventCallback<decimal> ValChanged { get; set; }
+
+    [Parameter]
+    public decimal Val 
+    {
+        get => _value;
+
+        set
+        {
+            if (_value == value) return;
+
+            _value = value;
+
+            ValChanged.InvokeAsync(value);
+        }
+    }
+}
+
+<input @bind="@Val"/>
+<button>@Val</button>
