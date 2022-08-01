@@ -8,6 +8,9 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
+<a href="banking-system">banking-system</a>
+<br />
+
 @*@using Bank
 
 @code {
@@ -15,3 +18,54 @@ Welcome to your new app.
 }
 
 @bank.ExcessReserves()*@
+
+@code {
+    private decimal abc = 0;
+    private decimal bcd = 0;
+
+    void AbcChanged(decimal val)
+    {
+        bcd = abc;
+    }
+}
+
+@*<input @bind-value="abc"/>
+<button>@abc</button>
+<br />
+
+<input @bind-value="bcd"/>
+<button>@bcd</button>
+<br />*@
+
+@*<InputButton Val="abc" />*@
+
+@*<EditForm Model="abc">
+    <InputButton @bind-BindingValue="abc" />
+</EditForm>*@
+
+@*<InputButton @bind-BindingValue="abc"/>*@
+
+@*<InputButton @bind-Val="abc"/>
+
+
+<br />*@
+
+@*<SliderButtonAlt @bind-Val="@abc" Max="100" ChangeProc="@(arg => bcd = abc)"/>*@
+
+@*<SliderButtonAlt @bind-Val="@abc" Max="100" ChangeProc="@(arg => bcd = arg)"/>*@
+
+@*<SliderButtonAlt @bind-Val="@abc" ChangeProc="@(arg => bcd = arg)"/>*@
+
+abc: @abc
+bcd: @bcd
+
+<br />
+
+<SliderButtonAlt @bind-Val="@abc" ChangeProc="@(arg => bcd = abc)"/>
+
+@*<RadzenSlider style="width: 50%;" TValue="decimal" @bind-Value="@abc" Change=@(arg => AbcChanged(arg))/>*@
+
+@*<RadzenSlider style="width: 50%;" TValue="decimal" @bind-Value="@abc" Change=@(arg => bcd = abc)/>
+
+abc: @abc
+bcd: @bcd*@

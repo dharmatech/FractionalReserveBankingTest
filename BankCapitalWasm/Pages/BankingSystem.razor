@@ -41,6 +41,9 @@
     void OnChangeAddDebt(decimal value)          { CopyEconomy(economy_base, economy); economy.Bank.AddDebt(value); }
     void OnChangeAddCash(decimal value)          { CopyEconomy(economy_base, economy); economy.AddCash(value); }
     void OnChangeDeposit(decimal value)          { CopyEconomy(economy_base, economy); economy.Deposit(value); }
+
+    //void OnChangeDeposit(decimal value)          { CopyEconomy(economy_base, economy); economy.Deposit(value); }
+
     void OnChangeAddCapital(decimal value)       { CopyEconomy(economy_base, economy); economy.Bank.AddCapital(value); }
     void OnChangeLoan(decimal value)             { CopyEconomy(economy_base, economy); economy.Loan(value); }
     void OnChangeLoanDefault(decimal value)      { CopyEconomy(economy_base, economy); economy.Bank.LoanDefault(value); }
@@ -54,31 +57,33 @@
     void CommitLoan()               { CopyEconomy(economy, economy_base); loan = 0; }
     void OnCommitLoanDefault()      { CopyEconomy(economy, economy_base); loan_default = 0; }
     void OnCommitBuySecurity()      { CopyEconomy(economy, economy_base); securities = 0; }
-    void OnCommitSecuritiesProfit() { CopyEconomy(economy, economy_base); securities_profit = 0; }    
+    void OnCommitSecuritiesProfit() { CopyEconomy(economy, economy_base); securities_profit = 0; }
 }
 
 @{
     void Template(string label, decimal? a, decimal? b)
     {
-        @if (a == b)
+    @if (a == b)
         {
-            <span>
-                @label @(String.Format("{0:N2}", a))
-            </span>
+    <span>
+                        @label @(String.Format("{0:N2}", a))
+    </span>
         }
         else
         {
-            <span>
-                @label @(String.Format("{0:N2}", b))
-                <span style="color: purple;">
-                    (@(String.Format("{0:N2}", a)))
-                </span>
-            </span>    
+    <span>
+                        @label @(String.Format("{0:N2}", b))
+                        <span style="color: purple;">
+                            (@(String.Format("{0:N2}", a)))
+                        </span>
+    </span>
         }
     }
 }
 
-@{ Template("Cash", economy.Cash, economy_base.Cash); }
+@{
+    Template("Cash", economy.Cash, economy_base.Cash); 
+}
 
 <br />
 
@@ -87,11 +92,11 @@
 
         <tr>
             <th>ASSETS</th>
-            
+
             <th>LIABILITIES AND OWNERS' EQUITY</th>
-            
+
         </tr>
-        
+
     </thead>
     <tbody>
 
@@ -100,17 +105,23 @@
                 <table>
                     <tr>
                         <td>Reserves</td>
-                        <td style="text-align: right;">@{ Template("", economy.Bank.Reserves, economy_base.Bank.Reserves); }</td>
+                        <td style="text-align: right;">@{
+                                Template("", economy.Bank.Reserves, economy_base.Bank.Reserves); 
+                            }</td>
                     </tr>
 
                     <tr>
                         <td>Loans</td>
-                        <td style="text-align: right;">@{ Template("", economy.Bank.Loans, economy_base.Bank.Loans); }</td>
+                        <td style="text-align: right;">@{
+                                Template("", economy.Bank.Loans, economy_base.Bank.Loans); 
+                            }</td>
                     </tr>
 
                     <tr>
                         <td>Securities</td>
-                        <td style="text-align: right;">@{ Template("", economy.Bank.Securities, economy_base.Bank.Securities); }</td>
+                        <td style="text-align: right;">@{
+                                Template("", economy.Bank.Securities, economy_base.Bank.Securities); 
+                            }</td>
                     </tr>
                 </table>
             </td>
@@ -119,15 +130,21 @@
                 <table>
                     <tr>
                         <td>Deposits</td>
-                        <td style="text-align: right;">@{ Template("", economy.Bank.Deposits, economy_base.Bank.Deposits); } </td>
+                        <td style="text-align: right;">@{
+                                Template("", economy.Bank.Deposits, economy_base.Bank.Deposits); 
+                            } </td>
                     </tr>
                     <tr>
                         <td>Debt</td>
-                        <td style="text-align: right;">@{ Template("", economy.Bank.Debt, economy_base.Bank.Debt); } </td>
+                        <td style="text-align: right;">@{
+                                Template("", economy.Bank.Debt, economy_base.Bank.Debt); 
+                            } </td>
                     </tr>
                     <tr>
                         <td>Capital</td>
-                        <td style="text-align: right;">@{ Template("", economy.Bank.Capital, economy_base.Bank.Capital); } </td>
+                        <td style="text-align: right;">@{
+                                Template("", economy.Bank.Capital, economy_base.Bank.Capital); 
+                            } </td>
                     </tr>
                 </table>
             </td>
@@ -141,11 +158,17 @@
 
 Reserve ratio: 10% <br />
 
-@{ Template("Excess reserves", economy.Bank.ExcessReserves(), economy_base.Bank.ExcessReserves()); } <br />
+@{
+    Template("Excess reserves", economy.Bank.ExcessReserves(), economy_base.Bank.ExcessReserves()); 
+} <br />
 
-@{ Template("Money supply", economy.MoneySupply(), economy_base.MoneySupply()); } <br />
+@{
+    Template("Money supply", economy.MoneySupply(), economy_base.MoneySupply()); 
+} <br />
 
-@{ Template("Leverage ratio", economy.Bank.LeverageRatio(), economy_base.Bank.LeverageRatio()); } <br />
+@{
+    Template("Leverage ratio", economy.Bank.LeverageRatio(), economy_base.Bank.LeverageRatio()); 
+} <br />
 
 
 <div>
@@ -185,17 +208,118 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 
 
 
+@*
+@{
+    void SliderButtonTemplate(decimal max, decimal value, Action<decimal> proc, Action commit, string label)
+    {
+        <RadzenSlider Style="width: 50%; " @bind-Value=@value TValue="decimal" Min="0" Max="@(Math.Max(max, 0.1m))" Change=@(arg => proc(arg)) />
+
+        <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick=commit>
+            @label value
+        </button>
+    }
+
+    //RenderFragment AltTemplate((decimal, decimal) obj)
+    //{
+    //    <div>
+    //    </div>
+    //}
+
+    RenderFragment<(double, double)> AltTemplate = (abc) => @<div>  </div>;
+}
 
 
 
+@{ SliderButtonTemplate(economy_base.Cash, deposit, OnChangeDeposit, CommitDeposit, "Deposit"); }
+
+*@
+
+
+@code{
+    decimal abc = 0;
+    decimal bcd = 0;
+
+    public class TemplateArg
+    {
+        public decimal Val;
+        public decimal Max;
+        public Action<decimal> Proc;
+    }
+}
+
+<RadzenSlider @bind-Value="abc" />
+
+<button>@abc</button>
+
+<br />
 
 
 
+@{
+    RenderFragment<(decimal, decimal)> AltTemplate = (xyz) =>
+    @<div>
+        <input @bind-value="xyz.Item1"/>
+
+        <button>@xyz.Item1 @xyz.Item2</button>
+    </div>;
+
+
+
+    //RenderFragment<(decimal, decimal, Action<decimal>)> AltTemplate2 = (xyz) =>
+    //@<div>
+    //    @*<RadzenSlider @bind-Value="xyz.Item1"  />*@
+    //                <RadzenSlider @bind-Value="xyz.Item1"/>
+    //                <RadzenSlider Style="width: 50%;" @bind-Value="xyz.Item1" TValue="decimal" Min="0" Max="@(Math.Max(xyz.Item2, 0.1m))" Change=@(arg => xyz.Item3(arg)) />
+    //                <button>@xyz.Item1</button>
+    //</div>;
+        
+    //RenderFragment<TemplateArg> AltTemplate3 = (xyz) =>
+    //@<div>
+        
+    //    <RadzenSlider @bind-Value="xyz.Val"/>
+    //    @*<RadzenSlider Style="width: 50%;" @bind-Value="xyz.Item1" TValue="decimal" Min="0" Max="@(Math.Max(xyz.Item2, 0.1m))" Change=@(arg => xyz.Item3(arg)) />*@
+    //    <button>@xyz.Val</button>
+    //</div>;
+
+    
+
+    //RenderFragment<(decimal, decimal, EventCallback<decimal>)> AltTemplate3 = (xyz) =>
+    //@<div>
+    //                <RadzenSlider @bind-Value="xyz.Item1"  />
+    //                <RadzenSlider Style="width: 50%;" @bind-Value="xyz.Item1" TValue="decimal" Min="0" Max="@(Math.Max(xyz.Item2, 0.1m))" Change=@(arg => xyz.Item3(arg)) />
+    //                <button>@xyz</button>
+    //</div>;
+}
+
+
+@AltTemplate((abc, bcd))
+
+
+@*
+@AltTemplate((deposit, economy_base.Cash))
+*@
+
+@*
+@AltTemplate2((deposit, economy_base.Cash, OnChangeDeposit))
+*@
+
+@*<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="economy_base.Cash" ChangeProc="OnChangeDeposit" CommitProc="CommitDeposit" />*@
+
+@*<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="100" ChangeProc="OnChangeDeposit" CommitProc="CommitDeposit" />*@
+
+@*<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="100" ChangeProc=@(arg => OnChangeDeposit(arg)) CommitProc="CommitDeposit" />*@
+
+<SliderButton Label="Alt Deposit" @bind-Val="@deposit" Max="100" ChangeProc="OnChangeDeposit" CommitProc="CommitDeposit" />
+
+@*
 <RadzenSlider Style="width: 50%; " @bind-Value=@deposit TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Cash, 0.1m))" Change=@(arg => OnChangeDeposit(arg)) />
+
 
 <button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitDeposit">
     Deposit @deposit
 </button>
+*@
+
 
 <RadzenSlider Style="width: 50%;" @bind-Value=@loan TValue="decimal" Min="0" Max="@(Math.Max(economy_base.Bank.ExcessReserves(), 0.1m))" Change=@(arg => OnChangeLoan(arg)) />
 
