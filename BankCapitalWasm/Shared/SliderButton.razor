@@ -23,8 +23,11 @@
     [Parameter]
     public decimal Max { get; set; }
 
+    //[Parameter]
+    //public Action<decimal> ChangeProc { get; set; }
+
     [Parameter]
-    public Action<decimal> ChangeProc { get; set; }
+    public EventCallback<decimal> ChangeProc { get; set; }
 
     [Parameter]
     public Action CommitProc { get; set; }

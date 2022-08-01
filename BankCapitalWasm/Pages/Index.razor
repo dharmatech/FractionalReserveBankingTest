@@ -23,10 +23,7 @@ Welcome to your new app.
     private decimal abc = 0;
     private decimal bcd = 0;
 
-    void AbcChanged(decimal val)
-    {
-        bcd = abc;
-    }
+    void AbcChanged(decimal val) { bcd = abc; }
 }
 
 @*<input @bind-value="abc"/>
@@ -63,9 +60,17 @@ bcd: @bcd
 
 <SliderButtonAlt @bind-Val="@abc" ChangeProc="@(arg => bcd = abc)"/>
 
+<br />
+
 @*<RadzenSlider style="width: 50%;" TValue="decimal" @bind-Value="@abc" Change=@(arg => AbcChanged(arg))/>*@
 
 @*<RadzenSlider style="width: 50%;" TValue="decimal" @bind-Value="@abc" Change=@(arg => bcd = abc)/>
 
 abc: @abc
 bcd: @bcd*@
+
+@code { void ChangedAlt(decimal val) { abc = val; } }
+
+<RadzenSlider TValue="decimal" Min="0" Max="100" Change="ChangedAlt" />
+
+<RadzenSlider TValue="decimal" Min="0" Max="100" Change="@(arg => ChangedAlt(arg))" />

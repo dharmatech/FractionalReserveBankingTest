@@ -36,10 +36,7 @@
 
     void OnChangeAddDebt(decimal value)          { CopyEconomy(economy_base, economy); economy.Bank.AddDebt(value); }
     void OnChangeAddCash(decimal value)          { CopyEconomy(economy_base, economy); economy.AddCash(value); }
-    void OnChangeDeposit(decimal value)          { CopyEconomy(economy_base, economy); economy.Deposit(value); }
-
-    //void OnChangeDeposit(decimal value)          { CopyEconomy(economy_base, economy); economy.Deposit(value); }
-
+        
     void OnChangeAddCapital(decimal value)       { CopyEconomy(economy_base, economy); economy.Bank.AddCapital(value); }
     void OnChangeLoan(decimal value)             { CopyEconomy(economy_base, economy); economy.Loan(value); }
     void OnChangeLoanDefault(decimal value)      { CopyEconomy(economy_base, economy); economy.Bank.LoanDefault(value); }
@@ -202,11 +199,24 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
 </div>
 
 
+@code {
+    private decimal deposit = 0;
+
+    void OnChangeDeposit(decimal value) { CopyEconomy(economy_base, economy); economy.Deposit(value); }
+}
+
+<SliderButton Label="Deposit" @bind-Val="@deposit" Max="economy_base.Cash" 
+    ChangeProc="OnChangeDeposit"
+    CommitProc="CommitDeposit" />
 
 
-<SliderButton                           Label="Deposit"                                          Max="economy_base.Cash"                  ChangeProc="OnChangeDeposit"          CommitProc="CommitDeposit" />
+<SliderButton Label="Deposit" Max="economy_base.Cash" 
+    ChangeProc="@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })"
+    CommitProc="CommitDeposit" />
 
-
+<SliderButton Label="Deposit" Max="economy_base.Cash" 
+    ChangeProc="@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })"
+    CommitProc="@(() => CopyEconomy(economy, economy_base))" />
 
 <SliderButton                           Label="Loan"              @bind-Val="@loan"              Max="economy_base.Bank.ExcessReserves()" ChangeProc="OnChangeLoan"             CommitProc="CommitLoan" />
 <SliderButton ButtonStyle="btn-danger"  Label="Loan default"      @bind-Val="@loan_default"      Max="economy_base.Bank.Loans"            ChangeProc="OnChangeLoanDefault"      CommitProc="OnCommitLoanDefault" />
