@@ -33,12 +33,6 @@
 
 <RadzenSlider Style="width: 50%; " @bind-Value="@Val" TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" Change="ChangeProc" />
 
-@*
-<button class="btn btn-primary btn-sm" style="width: 150px;" @onclick="CommitProc">
-    @Label @Val
-</button>
-*@
-
 <button class="btn @ButtonStyle btn-sm" style="width: 150px;" @onclick="CommitProc">
     @Label @Val
 </button>
