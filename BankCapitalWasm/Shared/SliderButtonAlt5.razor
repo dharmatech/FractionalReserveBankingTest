@@ -1,0 +1,33 @@
+﻿
+@* 
+
+Shaun Curtis approach 
+
+https://stackoverflow.com/a/73210592/268581 
+
+*@
+
+@code {
+    [Parameter] public decimal Val { get; set; }
+    [Parameter] public EventCallback<decimal> ValChanged { get; set; }
+    [Parameter] public decimal Max { get; set; }
+    [Parameter] public EventCallback<decimal> ChangeProc { get; set; }
+    [Parameter] public EventCallback CommitProc { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string ButtonStyle { get; set; } = "btn-primary";
+
+    void SliderChanged(decimal value)
+    {
+        ValChanged.InvokeAsync(value);
+
+        if (ChangeProc.HasDelegate) ChangeProc.InvokeAsync(value);
+    }
+}
+
+@*<RadzenSlider Style="width: 50%; " @bind-Value="@LocalVal" TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" Change="ChangeProc" />*@
+
+<RadzenSlider Style="width: 50%;" Value=@Val TValue=decimal Min=0 Max=@(Math.Max(Max, 0.1m)) ValueChanged=SliderChanged />
+
+<button class="btn @ButtonStyle btn-sm" style="width: 150px;" @onclick=CommitProc>
+    @Label @Val
+</button>

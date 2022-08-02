@@ -195,6 +195,24 @@ Max:<input style="max-width: 75px;" @bind="max_capital_to_add" />
     ChangeProc="@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })"
     CommitProc="@(() => { CopyEconomy(economy, economy_base); deposit = 0; })" />
 
+<SliderButtonAlt3 Label="Deposit" @bind-Val="@deposit" Max="economy_base.Cash" 
+    ChangeProc="@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })"
+    CommitProc="@(() => { CopyEconomy(economy, economy_base); deposit = 0; })" />     
+
+SliderButtonAlt3
+
+<SliderButtonAlt4 Label="Deposit" @bind-Val="@deposit" Max="economy_base.Cash" 
+    ChangeProc="@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })"
+    CommitProc="@(() => { CopyEconomy(economy, economy_base); deposit = 0; })" />     
+
+SliderButtonAlt4
+
+<SliderButtonAlt5 Label="Deposit" @bind-Val=@deposit Max=economy_base.Cash 
+    ChangeProc=@(arg => { CopyEconomy(economy_base, economy); economy.Deposit(arg); })
+    CommitProc=@(() => { CopyEconomy(economy, economy_base); deposit = 0; }) />     
+
+SliderButtonAlt5
+
 @code { private decimal loan = 0; }
 
 <SliderButton Label="Loan" @bind-Val="@loan" Max="economy_base.Bank.ExcessReserves()" 

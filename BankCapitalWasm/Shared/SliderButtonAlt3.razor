@@ -1,0 +1,44 @@
+﻿
+@*
+
+Mister Magoo's approach
+
+https://stackoverflow.com/a/73205691/268581
+
+*@
+@code {
+
+    [Parameter]
+    public EventCallback<decimal> ValChanged { get; set; }
+
+    [Parameter]
+    public decimal Val { get; set; }
+
+    private decimal _value
+    {
+        get => Val;
+
+        set
+        {
+            if (_value == value) return;
+
+            ValChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter] public decimal Max { get; set; }
+
+    [Parameter] public EventCallback<decimal> ChangeProc { get; set; }
+
+    [Parameter] public EventCallback CommitProc { get; set; }
+
+    [Parameter] public string Label { get; set; }
+
+    [Parameter] public string ButtonStyle { get; set; } = "btn-primary";
+}
+
+<RadzenSlider Style="width: 50%; " @bind-Value="@_value" TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" Change="ChangeProc" />
+
+<button class="btn @ButtonStyle btn-sm" style="width: 150px;" @onclick="CommitProc">
+    @Label @Val
+</button>
