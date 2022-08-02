@@ -44,8 +44,14 @@ Welcome to your new app.
 
 @*<InputButton @bind-Val="abc"/>
 
-
 <br />*@
+
+InputButtonAlt:
+
+<InputButtonAlt @bind-Val=abc/>
+
+<br />
+
 
 @*<SliderButtonAlt @bind-Val="@abc" Max="100" ChangeProc="@(arg => bcd = abc)"/>*@
 
@@ -74,3 +80,4 @@ bcd: @bcd*@
 <RadzenSlider TValue="decimal" Min="0" Max="100" Change="ChangedAlt" />
 
 <RadzenSlider TValue="decimal" Min="0" Max="100" Change="@(arg => ChangedAlt(arg))" />
+

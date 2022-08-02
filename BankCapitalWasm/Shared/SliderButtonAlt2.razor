@@ -1,0 +1,36 @@
+﻿
+@code {
+    [Parameter]
+    public EventCallback<decimal> ValChanged { get; set; }
+
+    [Parameter]
+    public decimal Val { get; set; }   
+
+    async Task UpdateVal(decimal arg)
+    {
+        Val = arg;
+
+        await ValChanged.InvokeAsync(Val);
+    }
+
+    [Parameter] public decimal Max { get; set; }
+
+    [Parameter] public EventCallback<decimal> ChangeProc { get; set; }
+
+    [Parameter] public EventCallback CommitProc { get; set; }
+
+    [Parameter] public string Label { get; set; }
+
+    [Parameter] public string ButtonStyle { get; set; } = "btn-primary";
+}
+
+<RadzenSlider Style="width: 50%;" Value=@Val TValue="decimal" Min="0" Max="@(Math.Max(Max, 0.1m))" 
+    Change=@(async val => 
+    { 
+        await UpdateVal(val);  
+        await ChangeProc.InvokeAsync(val); 
+    }) />
+
+<button class="btn @ButtonStyle btn-sm" style="width: 150px;" @onclick="CommitProc">
+    @Label @Val
+</button>

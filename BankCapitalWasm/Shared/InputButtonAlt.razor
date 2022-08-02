@@ -1,0 +1,18 @@
+﻿
+@code {
+    [Parameter]
+    public EventCallback<decimal> ValChanged { get; set; }
+
+    [Parameter]
+    public decimal Val { get; set; }
+
+    async Task UpdateVal(ChangeEventArgs args)
+    {
+        Val = Convert.ToDecimal(args.Value);
+                
+        await ValChanged.InvokeAsync(Val);
+    }
+}
+
+<input value=@Val @onchange=UpdateVal/>
+<button>@Val</button>
